@@ -1,19 +1,19 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "0259ba37b070fcc05e4b",
+  "name": "e59896b1f02d0c753477",
   "position": {
-    "x": 95,
-    "y": 562.5,
-    "z": 0,
-    "height": 142.5,
-    "width": 922.5,
-    "tabOrder": 0
+    "x": 1032.5,
+    "y": 545,
+    "z": 8000,
+    "height": 160,
+    "width": 227.5,
+    "tabOrder": 8000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "slicer",
     "query": {
       "queryState": {
-        "Category": {
+        "Values": {
           "projections": [
             {
               "field": {
@@ -23,62 +23,99 @@
                       "Entity": "parking_simulation_data"
                     }
                   },
-                  "Property": "Hour"
+                  "Property": "Zone"
                 }
               },
-              "queryRef": "parking_simulation_data.Hour",
-              "nativeQueryRef": "Hour",
+              "queryRef": "parking_simulation_data.Zone",
+              "nativeQueryRef": "Zone",
               "active": true
             }
           ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "parking_simulation_data"
-                        }
-                      },
-                      "Property": "PARKING OCCUPANCY"
-                    }
-                  },
-                  "Function": 1
-                }
-              },
-              "queryRef": "CountNonNull(parking_simulation_data.Status_Code)",
-              "nativeQueryRef": "Average of PARKING OCCUPANCY"
-            }
-          ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Aggregation": {
-                "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "parking_simulation_data"
-                      }
-                    },
-                    "Property": "PARKING OCCUPANCY"
-                  }
-                },
-                "Function": 1
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Basic'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "orientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
               }
             },
-            "direction": "Descending"
+            "filter": {
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "p",
+                    "Entity": "parking_simulation_data",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "In": {
+                        "Expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "p"
+                                }
+                              },
+                              "Property": "Zone"
+                            }
+                          }
+                        ],
+                        "Values": [
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'Zone_A'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'Zone_C'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'Zone_B'"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
           }
-        ],
-        "isDefaultSort": true
-      }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [

@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "0259ba37b070fcc05e4b",
+  "name": "2db94440434a29b594ba",
   "position": {
-    "x": 95,
-    "y": 562.5,
-    "z": 0,
-    "height": 142.5,
-    "width": 922.5,
-    "tabOrder": 0
+    "x": 390,
+    "y": 230.00000000000003,
+    "z": 5000,
+    "height": 167.14285714285717,
+    "width": 318.57142857142861,
+    "tabOrder": 5000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "donutChart",
     "query": {
       "queryState": {
         "Category": {
@@ -23,11 +23,11 @@
                       "Entity": "parking_simulation_data"
                     }
                   },
-                  "Property": "Hour"
+                  "Property": "Status"
                 }
               },
-              "queryRef": "parking_simulation_data.Hour",
-              "nativeQueryRef": "Hour",
+              "queryRef": "parking_simulation_data.Status",
+              "nativeQueryRef": "Status",
               "active": true
             }
           ]
@@ -44,14 +44,14 @@
                           "Entity": "parking_simulation_data"
                         }
                       },
-                      "Property": "PARKING OCCUPANCY"
+                      "Property": "Status"
                     }
                   },
-                  "Function": 1
+                  "Function": 5
                 }
               },
-              "queryRef": "CountNonNull(parking_simulation_data.Status_Code)",
-              "nativeQueryRef": "Average of PARKING OCCUPANCY"
+              "queryRef": "CountNonNull(parking_simulation_data.Status)",
+              "nativeQueryRef": "Count of Status"
             }
           ]
         }
@@ -68,10 +68,10 @@
                         "Entity": "parking_simulation_data"
                       }
                     },
-                    "Property": "PARKING OCCUPANCY"
+                    "Property": "Status"
                   }
                 },
-                "Function": 1
+                "Function": 5
               }
             },
             "direction": "Descending"
@@ -79,6 +79,21 @@
         ],
         "isDefaultSort": true
       }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [

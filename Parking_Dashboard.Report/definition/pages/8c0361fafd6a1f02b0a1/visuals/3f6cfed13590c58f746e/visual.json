@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "0259ba37b070fcc05e4b",
+  "name": "3f6cfed13590c58f746e",
   "position": {
-    "x": 95,
-    "y": 562.5,
-    "z": 0,
-    "height": 142.5,
-    "width": 922.5,
-    "tabOrder": 0
+    "x": 390,
+    "y": 405,
+    "z": 14000,
+    "height": 150,
+    "width": 627.5,
+    "tabOrder": 14000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "areaChart",
     "query": {
       "queryState": {
         "Category": {
@@ -36,22 +36,17 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "parking_simulation_data"
-                        }
-                      },
-                      "Property": "PARKING OCCUPANCY"
+                    "SourceRef": {
+                      "Entity": "parking_simulation_data"
                     }
                   },
-                  "Function": 1
+                  "Property": "Potential_Lost_Revenue"
                 }
               },
-              "queryRef": "CountNonNull(parking_simulation_data.Status_Code)",
-              "nativeQueryRef": "Average of PARKING OCCUPANCY"
+              "queryRef": "parking_simulation_data.Potential_Lost_Revenue",
+              "nativeQueryRef": "Potential_Lost_Revenue"
             }
           ]
         }
@@ -60,18 +55,13 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Measure": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "parking_simulation_data"
-                      }
-                    },
-                    "Property": "PARKING OCCUPANCY"
+                  "SourceRef": {
+                    "Entity": "parking_simulation_data"
                   }
                 },
-                "Function": 1
+                "Property": "Potential_Lost_Revenue"
               }
             },
             "direction": "Descending"

@@ -1,83 +1,36 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "0259ba37b070fcc05e4b",
+  "name": "530c86c628e36a4df313",
   "position": {
-    "x": 95,
-    "y": 562.5,
-    "z": 0,
-    "height": 142.5,
-    "width": 922.5,
-    "tabOrder": 0
+    "x": 1031.6666666666667,
+    "y": 230,
+    "z": 10000,
+    "height": 130,
+    "width": 230,
+    "tabOrder": 10000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "cardVisual",
     "query": {
       "queryState": {
-        "Category": {
+        "Data": {
           "projections": [
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
                       "Entity": "parking_simulation_data"
                     }
                   },
-                  "Property": "Hour"
+                  "Property": "Peak_Hour_KPI"
                 }
               },
-              "queryRef": "parking_simulation_data.Hour",
-              "nativeQueryRef": "Hour",
-              "active": true
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "parking_simulation_data"
-                        }
-                      },
-                      "Property": "PARKING OCCUPANCY"
-                    }
-                  },
-                  "Function": 1
-                }
-              },
-              "queryRef": "CountNonNull(parking_simulation_data.Status_Code)",
-              "nativeQueryRef": "Average of PARKING OCCUPANCY"
+              "queryRef": "parking_simulation_data.Peak_Hour_KPI",
+              "nativeQueryRef": "Peak_Hour_KPI"
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Aggregation": {
-                "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "parking_simulation_data"
-                      }
-                    },
-                    "Property": "PARKING OCCUPANCY"
-                  }
-                },
-                "Function": 1
-              }
-            },
-            "direction": "Descending"
-          }
-        ],
-        "isDefaultSort": true
       }
     },
     "visualContainerObjects": {

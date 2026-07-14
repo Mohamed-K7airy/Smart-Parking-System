@@ -1,57 +1,33 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "0259ba37b070fcc05e4b",
+  "name": "5ec0adc19b9e892e429e",
   "position": {
-    "x": 95,
-    "y": 562.5,
-    "z": 0,
-    "height": 142.5,
-    "width": 922.5,
-    "tabOrder": 0
+    "x": 382,
+    "y": 88,
+    "z": 17000,
+    "height": 130,
+    "width": 220,
+    "tabOrder": 15000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "cardVisual",
     "query": {
       "queryState": {
-        "Category": {
+        "Data": {
           "projections": [
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
                       "Entity": "parking_simulation_data"
                     }
                   },
-                  "Property": "Hour"
+                  "Property": "Total_Cars_Today"
                 }
               },
-              "queryRef": "parking_simulation_data.Hour",
-              "nativeQueryRef": "Hour",
-              "active": true
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "parking_simulation_data"
-                        }
-                      },
-                      "Property": "PARKING OCCUPANCY"
-                    }
-                  },
-                  "Function": 1
-                }
-              },
-              "queryRef": "CountNonNull(parking_simulation_data.Status_Code)",
-              "nativeQueryRef": "Average of PARKING OCCUPANCY"
+              "queryRef": "parking_simulation_data.Total_Cars_Today",
+              "nativeQueryRef": "Total_Cars_Today"
             }
           ]
         }
@@ -60,18 +36,13 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Measure": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "parking_simulation_data"
-                      }
-                    },
-                    "Property": "PARKING OCCUPANCY"
+                  "SourceRef": {
+                    "Entity": "parking_simulation_data"
                   }
                 },
-                "Function": 1
+                "Property": "Total_Cars_Today"
               }
             },
             "direction": "Descending"

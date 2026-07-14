@@ -9,6 +9,15 @@
         "page": "2.3.1"
       },
       "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "Custom04116272515545183.json",
+      "reportVersionAtImport": {
+        "visual": "2.10.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "RegisteredResources"
     }
   },
   "objects": {
@@ -19,6 +28,19 @@
             "expr": {
               "Literal": {
                 "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
               }
             }
           }
@@ -35,6 +57,47 @@
           "name": "CY26SU05",
           "path": "BaseThemes/CY26SU05.json",
           "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "Custom04116272515545183.json",
+          "path": "Custom04116272515545183.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "icons8-analytics-30666350019604612.png",
+          "path": "icons8-analytics-30666350019604612.png",
+          "type": "Image"
+        },
+        {
+          "name": "icons8-carpark-305435254663902747.png",
+          "path": "icons8-carpark-305435254663902747.png",
+          "type": "Image"
+        },
+        {
+          "name": "icons8-dollar-305529427740934907.png",
+          "path": "icons8-dollar-305529427740934907.png",
+          "type": "Image"
+        },
+        {
+          "name": "icons8-google-alerts-303889589598312756.png",
+          "path": "icons8-google-alerts-303889589598312756.png",
+          "type": "Image"
+        },
+        {
+          "name": "icons8-homepage-309672411330676093.png",
+          "path": "icons8-homepage-309672411330676093.png",
+          "type": "Image"
+        },
+        {
+          "name": "icons8-location-pin-307877491667474772.png",
+          "path": "icons8-location-pin-307877491667474772.png",
+          "type": "Image"
         }
       ]
     }

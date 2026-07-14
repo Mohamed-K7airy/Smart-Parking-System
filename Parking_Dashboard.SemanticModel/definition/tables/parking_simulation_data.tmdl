@@ -1,6 +1,115 @@
 table parking_simulation_data
 	lineageTag: d10514ea-1468-4e20-afc0-396655dd7fd1
 
+	measure Total_Revenue = SUM(parking_simulation_data[PARKING OCCUPANCY]) * 10
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 4191a4b7-cc17-4601-9d14-07bc3d3ffade
+
+	measure Avg_Parking_Duration_Hours = ```
+			
+			VAR TotalBusyHours = SUM(parking_simulation_data[PARKING OCCUPANCY])
+			-- هنا بنحسب عدد مرات الدخول التقريبية (التحول إلى مشغول)
+			VAR EstimatedArrivals = 
+			    COUNTROWS(
+			        FILTER(
+			            parking_simulation_data,
+			            parking_simulation_data[Status] = "Busy" && 
+			            parking_simulation_data[Hour] = 8 -- افتراض ساعة بداية الذروة أو التصفية لتسهيل الحسبة
+			        )
+			    )
+			RETURN 
+			IF(
+			    ISBLANK(EstimatedArrivals) || EstimatedArrivals = 0, 
+			    3.2, -- قيمة افتراضية منطقية للباركينج في حال عدم وجود فلتر
+			    DIVIDE(TotalBusyHours, EstimatedArrivals * 4.5, 3.2)
+			)
+			```
+		lineageTag: b0a405ff-67c2-476c-80ac-6c52830016da
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Potential_Lost_Revenue = ```
+			
+			CALCULATE(
+			    COUNTROWS(parking_simulation_data), 
+			    parking_simulation_data[Status] = "Free"
+			) * 10
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 07125aa7-7841-4553-b387-d08517d256fe
+
+	measure Slot_Turnover_Rate = ```
+			
+			VAR TotalArrivals = 
+			    DIVIDE(
+			        CALCULATE(SUM(parking_simulation_data[PARKING OCCUPANCY])), 
+			        [Avg_Parking_Duration_Hours], 
+			        0
+			    )
+			VAR ActiveSlots = DISTINCTCOUNT(parking_simulation_data[Slot_ID])
+			VAR ActiveDays = DISTINCTCOUNT(parking_simulation_data[Date])
+			RETURN
+			DIVIDE(TotalArrivals, ActiveSlots * ActiveDays, 0)
+			```
+		lineageTag: 01f8f5e3-fc9d-4f5a-8a46-3c5b39e6e127
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure System_Status = ```
+			
+			IF(
+			    ISBLANK(SUM(parking_simulation_data[PARKING OCCUPANCY])), 
+			    "🔴 System Offline", 
+			    "🟢 System Active"
+			)
+			```
+		lineageTag: 9b9d1064-7ea5-410f-a6de-f417204a03ac
+
+	measure Total_Cars_Today = ```
+			
+			VAR TotalArrivals = 
+			    DIVIDE(
+			        CALCULATE(SUM(parking_simulation_data[PARKING OCCUPANCY])), 
+			        [Avg_Parking_Duration_Hours], 
+			        0
+			    )
+			RETURN 
+			ROUND(TotalArrivals, 0)
+			```
+		formatString: 0
+		lineageTag: b8863492-8388-4664-bdc2-ab6dc60d6b66
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Peak_Hour_KPI = ```
+			
+			VAR MaxOccupancy = MAXX(ALL(parking_simulation_data[Hour]), CALCULATE(AVERAGE(parking_simulation_data[PARKING OCCUPANCY])))
+			VAR PeakHourVal = 
+			    FIRSTNONBLANK(
+			        FILTER(
+			            ALL(parking_simulation_data[Hour]), 
+			            CALCULATE(AVERAGE(parking_simulation_data[PARKING OCCUPANCY])) = MaxOccupancy
+			        ), 
+			        1
+			    )
+			RETURN 
+			SWITCH(
+			    TRUE(),
+			    PeakHourVal = 0, "12 AM",
+			    PeakHourVal = 12, "12 PM",
+			    PeakHourVal > 12, (PeakHourVal - 12) & " PM",
+			    PeakHourVal & " AM"
+			)
+			```
+		lineageTag: b101d560-2022-40ef-b9da-3a51707ddfd7
+
+	measure Smart_Alert =
+			
+			VAR CurrentOccupancy = AVERAGE(parking_simulation_data[PARKING OCCUPANCY])
+			RETURN
+			IF(CurrentOccupancy >= 0.60, "⚠️ High Demand! Slots filling fast", "🟢 Smooth Flow - Spots Available")
+		lineageTag: c53f69c7-a6d9-4a2d-8b58-2591cff821b6
+
 	column Timestamp
 		dataType: dateTime
 		formatString: General Date
@@ -67,12 +176,12 @@ table parking_simulation_data
 
 		annotation SummarizationSetBy = Automatic
 
-	column Status_Code
+	column 'PARKING OCCUPANCY'
 		dataType: int64
 		formatString: 0%;-0%;0%
 		lineageTag: 4406d0a9-c589-4b12-8826-3044c956cb78
 		summarizeBy: count
-		sourceColumn: Status_Code
+		sourceColumn: PARKING OCCUPANCY
 
 		annotation SummarizationSetBy = Automatic
 
@@ -84,15 +193,33 @@ table parking_simulation_data
 
 		annotation SummarizationSetBy = Automatic
 
+	column Slot_Type = ```
+			
+			VAR SlotDailyHours = 
+			    CALCULATE(
+			        SUM(parking_simulation_data[PARKING OCCUPANCY]),
+			        ALLEXCEPT(parking_simulation_data, parking_simulation_data[Slot_ID], parking_simulation_data[Date])
+			    )
+			RETURN
+			IF(SlotDailyHours <= 8, "قصيرة (Short-stay)",
+			    IF(SlotDailyHours <= 16, "متوسطة (Medium-stay)", "طويلة (Long-stay)")
+			)
+			```
+		lineageTag: 54cd92c5-7493-4567-a921-4c0e37f0fe50
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition parking_simulation_data = m
 		mode: import
 		source =
 				let
 				    Source = Csv.Document(File.Contents("D:\مذاكرة\computer vison NTI\project\Smart-Parking-System\parking_simulation_data.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
 				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Timestamp", type datetime}, {"Date", type date}, {"Time", type time}, {"Hour", Int64.Type}, {"Slot_ID", type text}, {"Zone", type text}, {"Status_Code", Int64.Type}, {"Status", type text}})
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Timestamp", type datetime}, {"Date", type date}, {"Time", type time}, {"Hour", Int64.Type}, {"Slot_ID", type text}, {"Zone", type text}, {"Status_Code", Int64.Type}, {"Status", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Status_Code", "PARKING OCCUPANCY"}})
 				in
-				    #"Changed Type"
+				    #"Renamed Columns"
 
 	annotation PBI_ResultType = Table
 
