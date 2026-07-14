@@ -1,0 +1,98 @@
+table parking_simulation_data
+	lineageTag: d10514ea-1468-4e20-afc0-396655dd7fd1
+
+	column Timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e04cd12d-d151-441c-acea-45b4793f99ae
+		summarizeBy: none
+		sourceColumn: Timestamp
+
+		variation Variation
+			isDefault
+			relationship: 05dff675-82a4-488c-a87c-59481a1f7cc9
+			defaultHierarchy: LocalDateTable_1eff995f-780b-4cf0-8531-8402bff8d848.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: dfbe1614-e593-44f5-84ba-5e3adee3014d
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 6c5a6098-ca83-43e7-b4a1-6e8ee10fc860
+			defaultHierarchy: LocalDateTable_c01f6dd4-4655-45a4-8f4d-644f35021314.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Time
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 18b42a61-8dc2-452c-9160-9792d0ca4b6c
+		summarizeBy: none
+		sourceColumn: Time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column Hour
+		dataType: int64
+		formatString: 0
+		lineageTag: 59c72020-2c4b-4b69-bf64-a07a295c1a78
+		summarizeBy: sum
+		sourceColumn: Hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column Slot_ID
+		dataType: string
+		lineageTag: 7779f7c5-5f43-4356-8cd8-d438d461838b
+		summarizeBy: none
+		sourceColumn: Slot_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Zone
+		dataType: string
+		lineageTag: c26065a4-dc83-4e31-b273-1a0d3db773ab
+		summarizeBy: none
+		sourceColumn: Zone
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status_Code
+		dataType: int64
+		formatString: 0%;-0%;0%
+		lineageTag: 4406d0a9-c589-4b12-8826-3044c956cb78
+		summarizeBy: count
+		sourceColumn: Status_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 9a1c9d8c-6800-4668-84cb-4c67be657bc7
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition parking_simulation_data = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\مذاكرة\computer vison NTI\project\Smart-Parking-System\parking_simulation_data.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Timestamp", type datetime}, {"Date", type date}, {"Time", type time}, {"Hour", Int64.Type}, {"Slot_ID", type text}, {"Zone", type text}, {"Status_Code", Int64.Type}, {"Status", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

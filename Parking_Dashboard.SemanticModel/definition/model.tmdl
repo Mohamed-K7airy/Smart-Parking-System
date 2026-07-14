@@ -1,0 +1,21 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["parking_simulation_data"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table parking_simulation_data
+ref table DateTableTemplate_59a2a5bf-6223-43f7-b0b6-83fdd55583ed
+ref table LocalDateTable_1eff995f-780b-4cf0-8531-8402bff8d848
+ref table LocalDateTable_c01f6dd4-4655-45a4-8f4d-644f35021314
+
+ref cultureInfo en-US
+

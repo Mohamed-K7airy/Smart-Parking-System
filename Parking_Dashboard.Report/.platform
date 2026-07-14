@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Parking_Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "0574bea5-6816-4a97-ba4d-40bc96a8e53f"
+  }
+}
