@@ -1,0 +1,215 @@
+table parking_simulation_data
+	lineageTag: 6e761df1-4493-4706-9d51-5a71a79eb5fe
+
+	measure Peak_Hour_Formatted =
+			
+			VAR MaxHour = MAX(parking_simulation_data[Peak_Hour_KPI])
+			VAR Hour12 = IF(MaxHour = 0 || MaxHour = 24, 12, IF(MaxHour > 12, MaxHour - 12, MaxHour))
+			VAR Period = IF(MaxHour >= 12, "PM", "AM")
+			RETURN
+			Hour12 & " " & Period
+		lineageTag: 16d101f4-a1b1-442e-bab9-75d7965855ca
+
+	measure Smart_Alert_Formatted = ```
+			
+			VAR AlertVal = SELECTEDVALUE(parking_simulation_data[Smart_Alert])
+			RETURN
+			IF(
+			    ISBLANK(AlertVal), 
+			    "🟢 Smooth Flow" & UNICHAR(10) & "- Spots Available", 
+			    AlertVal
+			)
+			```
+		lineageTag: 59b0318a-fe0c-4ad0-abb6-3d98bda0939f
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2d864caa-4c9a-4a36-9a0e-9744fd39986b
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 8b3cda41-182d-4033-84f5-6b73d7e28d35
+			defaultHierarchy: LocalDateTable_2d0a2573-b4f0-4d4f-af8a-7b37fb7cedf7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Hour
+		dataType: int64
+		formatString: 0
+		lineageTag: f5436220-47e1-4157-a928-1d17ebd8d1c1
+		summarizeBy: sum
+		sourceColumn: Hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column Timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: dc058df1-52b8-45e3-9ac6-22cf7a05247f
+		summarizeBy: none
+		sourceColumn: Timestamp
+
+		variation Variation
+			isDefault
+			relationship: 92b2d52d-2668-444d-b212-16da5d8a3136
+			defaultHierarchy: LocalDateTable_249091ec-3f3f-4477-b99a-3373166bb454.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Time
+		dataType: string
+		lineageTag: aeaee2a6-75de-4e9d-a4d0-2e6d9eb30bcd
+		summarizeBy: none
+		sourceColumn: Time
+
+		annotation SummarizationSetBy = Automatic
+
+	column Slot_ID
+		dataType: string
+		lineageTag: c5a024ec-2767-43e2-8e4a-a559810c0fa5
+		summarizeBy: none
+		sourceColumn: Slot_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Slot_Type
+		dataType: string
+		lineageTag: b838f8bc-9a45-4179-8d14-cc099aca60a8
+		summarizeBy: none
+		sourceColumn: Slot_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Zone
+		dataType: string
+		lineageTag: 4573643e-764c-412f-9446-9a814a908c7d
+		summarizeBy: none
+		sourceColumn: Zone
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 2c5b8cd8-4050-4604-b3a1-80d3fab32d8e
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status_Code
+		dataType: int64
+		formatString: 0
+		lineageTag: def7404a-6ca7-43a9-9f74-616bff0fed3f
+		summarizeBy: count
+		sourceColumn: Status_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column System_Status
+		dataType: string
+		lineageTag: d3e58840-2f8c-4daa-91ea-5e41a4a3861a
+		summarizeBy: none
+		sourceColumn: System_Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PARKING OCCUPANCY'
+		dataType: double
+		formatString: 0.00
+		lineageTag: 9142d081-d10b-408c-9b2d-016f6ba7dcc7
+		summarizeBy: sum
+		sourceColumn: PARKING OCCUPANCY
+
+		annotation SummarizationSetBy = Automatic
+
+	column Total_Cars_Today
+		dataType: int64
+		formatString: 0
+		lineageTag: bbed8f0c-7fcc-4698-bbe8-92085a09c0d0
+		summarizeBy: sum
+		sourceColumn: Total_Cars_Today
+
+		annotation SummarizationSetBy = Automatic
+
+	column Total_Revenue
+		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 63e03c04-5bbf-4c18-9a06-0750e6e024f4
+		summarizeBy: sum
+		sourceColumn: Total_Revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column Avg_Parking_Duration_Hour
+		dataType: double
+		lineageTag: 6b5d0e9d-b3b3-43c9-96ad-2c9e61bcf755
+		summarizeBy: sum
+		sourceColumn: Avg_Parking_Duration_Hour
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Peak_Hour_KPI
+		dataType: int64
+		formatString: 0
+		lineageTag: 6ec2dd85-686a-4844-b401-093a4158fecc
+		summarizeBy: sum
+		sourceColumn: Peak_Hour_KPI
+
+		annotation SummarizationSetBy = Automatic
+
+	column Potential_Lost_Revenue
+		dataType: double
+		formatString: 0
+		lineageTag: cc3aa683-cfbb-478f-b3b5-74cda4a93215
+		summarizeBy: sum
+		sourceColumn: Potential_Lost_Revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column Slot_Turnover_Rate
+		dataType: double
+		lineageTag: 957f797a-afbe-496b-b579-9f03c5cb1319
+		summarizeBy: sum
+		sourceColumn: Slot_Turnover_Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Smart_Alert
+		dataType: string
+		lineageTag: 829003f0-c828-4b3b-9449-9c461f36063c
+		summarizeBy: none
+		sourceColumn: Smart_Alert
+
+		annotation SummarizationSetBy = Automatic
+
+	partition parking_simulation_data = m
+		mode: import
+		source = ```
+				let
+				    // 1. تعريف مسار الفولدر كمتغير (تعدله من مكان واحد لو حبيت)
+				    Folder_Path =  "D:\مذاكرة\computer vison NTI\project\Smart-Parking-System\",
+				    
+				    // 2. دمج المسار مع اسم الملف
+				    Full_Path = Folder_Path & "parking_simulation_data.csv",
+				    
+				    // 3. سحب الملف
+				    Source = Csv.Document(File.Contents(Full_Path),[Delimiter=",", Columns=18, Encoding=1256, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"Hour", Int64.Type}, {"Timestamp", type datetime}, {"Time", type text}, {"Slot_ID", type text}, {"Slot_Type", type text}, {"Zone", type text}, {"Status", type text}, {"Status_Code", Int64.Type}, {"System_Status", type text}, {"PARKING OCCUPANCY", type number}, {"Total_Cars_Today", Int64.Type}, {"Total_Revenue", type number}, {"Avg_Parking_Duration_Hour", type number}, {"Peak_Hour_KPI", Int64.Type}, {"Potential_Lost_Revenue", type number}, {"Slot_Turnover_Rate", type number}, {"Smart_Alert", type text}})
+				in
+				    #"Changed Type"
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
