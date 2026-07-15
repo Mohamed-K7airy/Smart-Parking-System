@@ -1,10 +1,10 @@
-relationship 05dff675-82a4-488c-a87c-59481a1f7cc9
-	joinOnDateBehavior: datePartOnly
-	fromColumn: parking_simulation_data.Timestamp
-	toColumn: LocalDateTable_1eff995f-780b-4cf0-8531-8402bff8d848.Date
-
-relationship 6c5a6098-ca83-43e7-b4a1-6e8ee10fc860
+relationship 8b3cda41-182d-4033-84f5-6b73d7e28d35
 	joinOnDateBehavior: datePartOnly
 	fromColumn: parking_simulation_data.Date
-	toColumn: LocalDateTable_c01f6dd4-4655-45a4-8f4d-644f35021314.Date
+	toColumn: LocalDateTable_2d0a2573-b4f0-4d4f-af8a-7b37fb7cedf7.Date
+
+relationship 92b2d52d-2668-444d-b212-16da5d8a3136
+	joinOnDateBehavior: datePartOnly
+	fromColumn: parking_simulation_data.Timestamp
+	toColumn: LocalDateTable_249091ec-3f3f-4477-b99a-3373166bb454.Date
 

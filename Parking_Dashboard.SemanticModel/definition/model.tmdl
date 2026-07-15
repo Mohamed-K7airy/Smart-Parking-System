@@ -13,9 +13,9 @@ annotation PBI_QueryOrder = ["parking_simulation_data"]
 annotation PBI_ProTooling = ["DevMode"]
 
 ref table parking_simulation_data
-ref table DateTableTemplate_59a2a5bf-6223-43f7-b0b6-83fdd55583ed
-ref table LocalDateTable_1eff995f-780b-4cf0-8531-8402bff8d848
-ref table LocalDateTable_c01f6dd4-4655-45a4-8f4d-644f35021314
+ref table DateTableTemplate_363e99de-db70-4e67-b76a-831490945984
+ref table LocalDateTable_2d0a2573-b4f0-4d4f-af8a-7b37fb7cedf7
+ref table LocalDateTable_249091ec-3f3f-4477-b99a-3373166bb454
 
 ref cultureInfo en-US
 
