@@ -1,0 +1,9 @@
+!pip install roboflow
+
+from roboflow import Roboflow
+rf = Roboflow(api_key="sd6c6nrbg6R7sZuN3Dmw")
+project = rf.workspace("jeremy-w3v4a").project("parking-detection-jeremykevin")
+version = project.version(10)
+dataset = version.download("yolov11")
+
+https://universe.roboflow.com/jeremy-w3v4a/parking-detection-jeremykevin/dataset/10
