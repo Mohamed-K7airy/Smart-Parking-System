@@ -1,0 +1,85 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "efd8913c493dacbd5b2d",
+  "position": {
+    "x": 1050,
+    "y": 243,
+    "z": 14000,
+    "height": 208,
+    "width": 230,
+    "tabOrder": 12000
+  },
+  "visual": {
+    "visualType": "hundredPercentStackedBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "parking_simulation_data"
+                    }
+                  },
+                  "Property": "System_Status"
+                }
+              },
+              "queryRef": "parking_simulation_data.System_Status",
+              "nativeQueryRef": "System_Status1",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "parking_simulation_data"
+                        }
+                      },
+                      "Property": "System_Status"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "CountNonNull(parking_simulation_data.System_Status)",
+              "nativeQueryRef": "System_Status"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "parking_simulation_data"
+                      }
+                    },
+                    "Property": "System_Status"
+                  }
+                },
+                "Function": 5
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
